@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Avatar 2 Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    .quiz-box {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+    }
+    h2 {
+      color: #333;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #result {
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-box">
+    <h2>Who am I? (Avatar 2)</h2>
+    <form id="quizForm">
+<label><input type="radio" name="shopper" value="impulsive"> Impulsive Shopper</label><br>
+<label><input type="radio" name="shopper" value="loyal"> Loyal Shopper</label><br>
+<label><input type="radio" name="shopper" value="recreational"> Recreational Shopper</label><br>
+<label><input type="radio" name="shopper" value="follower"> Follower Shopper</label><br>
+<label><input type="radio" name="shopper" value="comparison"> Comparison Shopper</label><br>
+<label><input type="radio" name="shopper" value="innovative"> Innovative Shopper</label><br>
+
+      <button type="button" onclick="checkAnswer()">Submit</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function checkAnswer() {
+      const selected = document.querySelector('input[name="shopper"]:checked');
+      const result = document.getElementById("result");
+      if (!selected) {
+        result.textContent = "❗ Please select an answer.";
+        result.style.color = "red";
+        return;
+      }
+      if (selected.value === "follower") {
+        result.textContent = "✅ Correct! +5 points";
+        result.style.color = "green";
+      } else {
+        result.textContent = "❌ Incorrect.";
+        result.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
