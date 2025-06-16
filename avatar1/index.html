@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Avatar 6 Quiz</title>
+  <title>Avatar 1 Quiz</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -37,7 +37,7 @@
 </head>
 <body>
   <div class="quiz-box">
-    <h2>Who am I? (Avatar 6)</h2>
+    <h2>Who am I? (Avatar 1)</h2>
     <form id="quizForm">
 <label><input type="radio" name="shopper" value="impulsive"> Impulsive Shopper</label><br>
 <label><input type="radio" name="shopper" value="loyal"> Loyal Shopper</label><br>
@@ -45,6 +45,7 @@
 <label><input type="radio" name="shopper" value="follower"> Follower Shopper</label><br>
 <label><input type="radio" name="shopper" value="comparison"> Comparison Shopper</label><br>
 <label><input type="radio" name="shopper" value="innovative"> Innovative Shopper</label><br>
+<label><input type="radio" name="shopper" value="diverse"> Diverse Shopper</label><br>
 
       <button type="button" onclick="checkAnswer()">Submit</button>
     </form>
@@ -60,7 +61,7 @@
         result.style.color = "red";
         return;
       }
-      if (selected.value === "innovative") {
+      if (selected.value === "comparison") {
         result.textContent = "✅ Correct! +5 points";
         result.style.color = "green";
       } else {
