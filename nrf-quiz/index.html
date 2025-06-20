@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,15 +44,23 @@
       font-weight: bold;
       margin-top: 30px;
     }
+    #timer {
+      font-size: 18px;
+      color: red;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
   <h1>NRF Exam Practice Game</h1>
   <p>Answer the questions below. You earn <strong>5 points</strong> for each correct answer. Earn badges as you go!</p>
-
+  <div id="timer">Time left: 3:00</div>
   <div id="quiz-container"></div>
-
   <div id="score-box">Score: 0</div>
+
+  <audio id="correctSound" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+  <audio id="incorrectSound" src="https://actions.google.com/sounds/v1/cartoon/cartoon_boing.ogg"></audio>
+  <audio id="finishSound" src="https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg"></audio>
 
   <script>
     const questions = [
@@ -70,6 +77,26 @@
     ];
 
     let score = 0;
+    let timer;
+    let timeLeft = 180;
+
+    function startTimer() {
+      clearInterval(timer);
+      timeLeft = 180;
+      const timerDisplay = document.getElementById("timer");
+      timerDisplay.textContent = "Time left: 3:00";
+
+      timer = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = "Time left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timerDisplay.textContent = "⏰ Time's up!";
+        }
+      }, 1000);
+    }
 
     function renderQuiz() {
       const container = document.getElementById('quiz-container');
@@ -84,6 +111,7 @@
         div.innerHTML += `<button onclick="submitAnswer(${index})">Submit</button><span id="badge${index}"></span>`;
         container.appendChild(div);
       });
+      startTimer();
     }
 
     function submitAnswer(index) {
@@ -102,13 +130,21 @@
       if (selected === questions[index].correct) {
         score += 5;
         document.getElementById('badge' + index).innerHTML = '<span class="badge">🏆 +5</span>';
+        document.getElementById('correctSound').play();
       } else {
         document.getElementById('badge' + index).innerHTML = '<span class="badge" style="background: lightgray;">❌</span>';
+        document.getElementById('incorrectSound').play();
       }
 
       document.getElementById('score-box').innerText = "Score: " + score;
       const btns = document.querySelectorAll('button');
       btns[index].disabled = true;
+
+      if (index === questions.length - 1) {
+        document.getElementById('finishSound').play();
+      }
+
+      startTimer();
     }
 
     renderQuiz();
