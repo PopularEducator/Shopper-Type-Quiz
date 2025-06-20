@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>NRF Customer Service & Sales Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 20px;
+    }
+    .question {
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .question h3 {
+      margin: 0 0 10px;
+    }
+    .option {
+      display: block;
+      margin-bottom: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: gold;
+      color: black;
+      margin-left: 10px;
+      border-radius: 5px;
+    }
+    #score-box {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>NRF Exam Practice Game</h1>
+  <p>Answer the questions below. You earn <strong>5 points</strong> for each correct answer. Earn badges as you go!</p>
+
+  <div id="quiz-container"></div>
+
+  <div id="score-box">Score: 0</div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is customer service?",
+        options: ["A. Selling a product", "B. Providing assistance to customers*", "C. Creating advertisements", "D. Stocking shelves"],
+        correct: 1
+      },
+      {
+        question: "What is the first step in handling a customer complaint?",
+        options: ["A. Ignore them", "B. Apologize immediately", "C. Listen carefully*", "D. Offer a refund"],
+        correct: 2
+      }
+    ];
+
+    let score = 0;
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      questions.forEach((q, index) => {
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.innerHTML = `<h3>Q${index+1}: ${q.question}</h3>`;
+        q.options.forEach((opt, i) => {
+          const cleanOpt = opt.replace("*", "");
+          div.innerHTML += `<label class="option"><input type="radio" name="q${index}" value="${i}"> ${cleanOpt}</label><br>`;
+        });
+        div.innerHTML += `<button onclick="submitAnswer(${index})">Submit</button><span id="badge${index}"></span>`;
+        container.appendChild(div);
+      });
+    }
+
+    function submitAnswer(index) {
+      const radios = document.getElementsByName('q' + index);
+      let selected = -1;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+          selected = parseInt(radios[i].value);
+        }
+      }
+      if (selected === -1) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      if (selected === questions[index].correct) {
+        score += 5;
+        document.getElementById('badge' + index).innerHTML = '<span class="badge">🏆 +5</span>';
+      } else {
+        document.getElementById('badge' + index).innerHTML = '<span class="badge" style="background: lightgray;">❌</span>';
+      }
+
+      document.getElementById('score-box').innerText = "Score: " + score;
+      const btns = document.querySelectorAll('button');
+      btns[index].disabled = true;
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
