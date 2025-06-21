@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Exam Practice Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1d1f27;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #2a2d3a;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.05);
+    }
+    h1 {
+      text-align: center;
+      color: #feca57;
+    }
+    #timer {
+      font-size: 24px;
+      color: red;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .question {
+      background-color: #3c3f50;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .option {
+      display: block;
+      margin: 10px 0;
+    }
+    .badge {
+      display: block;
+      margin: 15px auto;
+      width: 70px;
+      animation: pop 0.5s ease-out;
+    }
+    @keyframes pop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .wrong-icon {
+      color: red;
+      font-weight: bold;
+    }
+    button {
+      background-color: #0984e3;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #score-box, #jackpot, #final-score {
+      text-align: center;
+      margin-top: 20px;
+    }
+    #slot {
+      font-size: 36px;
+      font-family: monospace;
+      animation: spin 1s steps(3) infinite;
+      color: #fffa65;
+    }
+    @keyframes spin {
+      from { content: "000"; }
+      to { content: "999"; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 NRF Exam Practice Questions 🎮</h1>
+    <div id="timer">Time left: 3:00</div>
+    <div id="quiz-container"></div>
+    <div id="score-box">Score: 0</div>
+    <div id="jackpot"></div>
+    <div id="slot"></div>
+    <div id="final-score"></div>
+  </div>
+
+  <!-- MP3 Audio Files -->
+  <audio id="countdownSound" src="https://cdn.pixabay.com/audio/2022/03/22/audio_2996a2bb96.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://cdn.pixabay.com/audio/2022/10/24/audio_5c7a3a8d6b.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://cdn.pixabay.com/audio/2022/03/04/audio_b5c8773251.mp3" preload="auto"></audio>
+  <audio id="jackpotSound" src="https://cdn.pixabay.com/audio/2022/03/03/audio_a917e4ce10.mp3" preload="auto"></audio>
+
+  <script>
+    const questions = [
+      {
+        question: "What is the purpose of customer service?",
+        options: ["A. Sell as much as possible", "B. Satisfy the customer*", "C. Handle stock", "D. Promote ads"],
+        correct: 1
+      },
+      {
+        question: "How should you greet a customer?",
+        options: ["A. Ignore them", "B. Greet after a purchase", "C. Greet immediately*", "D. Wait for them to speak"],
+        correct: 2
+      }
+    ];
+
+    let score = 0;
+    let timeLeft = 180;
+    let timer;
+
+    function startTimer() {
+      clearInterval(timer);
+      document.getElementById("countdownSound").play();
+      const display = document.getElementById("timer");
+      timeLeft = 180;
+      timer = setInterval(() => {
+        timeLeft--;
+        const min = Math.floor(timeLeft / 60);
+        const sec = timeLeft % 60;
+        display.innerText = `Time left: ${min}:${sec < 10 ? "0" : ""}${sec}`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          display.innerText = "⏰ Time's up!";
+        }
+      }, 1000);
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById("quiz-container");
+      questions.forEach((q, idx) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<h3>Q${idx+1}: ${q.question}</h3>`;
+        q.options.forEach((opt, i) => {
+          const cleanOpt = opt.replace("*", "");
+          div.innerHTML += `<label class="option"><input type="radio" name="q${idx}" value="${i}"> ${cleanOpt}</label>`;
+        });
+        div.innerHTML += `<button onclick="submitAnswer(${idx})">Submit</button><div id="reveal${idx}" class="correct-answer"></div>`;
+        container.appendChild(div);
+      });
+      startTimer();
+    }
+
+    function submitAnswer(index) {
+      const radios = document.getElementsByName("q" + index);
+      let selected = -1;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) selected = parseInt(radios[i].value);
+      }
+      if (selected === -1) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      const correctAnswer = questions[index].options[questions[index].correct].replace("*", "");
+      const reveal = document.getElementById("reveal" + index);
+
+      if (selected === questions[index].correct) {
+        score += 5;
+        document.getElementById("cheerSound").play();
+        reveal.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" class="badge" alt="Badge">`;
+      } else {
+        document.getElementById("buzzerSound").play();
+        reveal.innerHTML = `<span class='wrong-icon'>❌ Incorrect!<br>Correct Answer: ${correctAnswer}</span>`;
+      }
+
+      document.getElementById("score-box").innerText = "Score: " + score;
+
+      if (index === questions.length - 1) {
+        setTimeout(() => {
+          document.getElementById("jackpotSound").play();
+          document.getElementById("jackpot").innerText = "🎰 Jackpot! Spinning...";
+          document.getElementById("slot").innerText = `🎰 ${score} 🎰`;
+          document.getElementById("final-score").innerText = "Final Score: " + score + " points 🎉";
+        }, 1000);
+      }
+      startTimer();
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
