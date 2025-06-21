@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Exam Practice Questions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #3f3f9f);
+      margin: 0;
+      padding: 0;
+      color: #fff;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #ffd700;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #2c2c54;
+      border-radius: 8px;
+    }
+    .option {
+      display: block;
+      margin: 8px 0;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #00a8ff;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #score-box, #timer, #jackpot {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    .correct-answer {
+      color: #7bed9f;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .confetti {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      background: url('https://media.giphy.com/media/l0MYKDrJd7RzYQIMA/giphy.gif') center/cover no-repeat;
+      z-index: 1000;
+    }
+    #final-score {
+      font-size: 36px;
+      font-weight: bold;
+      color: #fbc531;
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 NRF Exam Practice Questions 🎮</h1>
+    <p style="text-align:center;">Answer each question to earn <strong>5 points</strong>. Unlock badges and reveal correct answers if missed!</p>
+    <div id="timer">Time left: 3:00</div>
+    <div id="quiz-container"></div>
+    <div id="score-box">Score: 0</div>
+    <div id="jackpot"></div>
+    <div id="final-score"></div>
+  </div>
+
+  <audio id="correctSound" preload="auto" src="https://cdn.pixabay.com/audio/2021/08/04/audio_d91f2529a5.mp3"></audio>
+  <audio id="incorrectSound" preload="auto" src="https://cdn.pixabay.com/audio/2022/03/04/audio_b5c8773251.mp3"></audio>
+  <audio id="jackpotSound" preload="auto" src="https://cdn.pixabay.com/audio/2022/03/04/audio_bcd2a7e992.mp3"></audio>
+  <audio id="cheerSound" preload="auto" src="https://cdn.pixabay.com/audio/2022/11/15/audio_b11e7c3a28.mp3"></audio>
+  <audio id="countdownSound" preload="auto" src="https://cdn.pixabay.com/audio/2023/03/05/audio_7bdcf9d08b.mp3"></audio>
+
+  <script>
+    const questions = [
+      {
+        question: "What is customer service?",
+        options: ["A. Selling a product", "B. Providing assistance to customers*", "C. Creating advertisements", "D. Stocking shelves"],
+        correct: 1
+      },
+      {
+        question: "What is the first step in handling a customer complaint?",
+        options: ["A. Ignore them", "B. Apologize immediately", "C. Listen carefully*", "D. Offer a refund"],
+        correct: 2
+      }
+    ];
+
+    let score = 0;
+    let timer;
+    let timeLeft = 180;
+
+    function startTimer() {
+      clearInterval(timer);
+      timeLeft = 180;
+      document.getElementById("countdownSound").play();
+      const timerDisplay = document.getElementById("timer");
+      timerDisplay.textContent = "Time left: 3:00";
+
+      timer = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.textContent = "Time left: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timerDisplay.textContent = "⏰ Time's up!";
+        }
+      }, 1000);
+    }
+
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      questions.forEach((q, index) => {
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.innerHTML = `<h3>Q${index+1}: ${q.question}</h3>`;
+        q.options.forEach((opt, i) => {
+          const cleanOpt = opt.replace("*", "");
+          div.innerHTML += `<label class="option"><input type="radio" name="q${index}" value="${i}"> ${cleanOpt}</label>`;
+        });
+        div.innerHTML += `<button onclick="submitAnswer(${index})">Submit</button><div id="reveal${index}" class="correct-answer"></div>`;
+        container.appendChild(div);
+      });
+      startTimer();
+    }
+
+    function submitAnswer(index) {
+      const radios = document.getElementsByName('q' + index);
+      let selected = -1;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) selected = parseInt(radios[i].value);
+      }
+      if (selected === -1) {
+        alert("Please select an answer!");
+        return;
+      }
+
+      const correctAnswer = questions[index].options[questions[index].correct].replace("*", "");
+      const reveal = document.getElementById("reveal" + index);
+
+      if (selected === questions[index].correct) {
+        score += 5;
+        document.getElementById('correctSound').play();
+      } else {
+        document.getElementById('incorrectSound').play();
+        reveal.innerText = "Correct Answer: " + correctAnswer;
+      }
+
+      document.getElementById('score-box').innerText = "Score: " + score;
+
+      if (index === questions.length - 1) {
+        setTimeout(() => {
+          document.body.insertAdjacentHTML('beforeend', '<div class="confetti"></div>');
+          document.getElementById('jackpotSound').play();
+          document.getElementById('cheerSound').play();
+          document.getElementById('jackpot').innerHTML = "🎰 Jackpot!";
+          document.getElementById('final-score').innerText = "Your Final Score: " + score + " points 🎉";
+        }, 1000);
+      }
+      startTimer();
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
