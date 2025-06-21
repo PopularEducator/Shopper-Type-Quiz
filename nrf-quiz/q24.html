@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Question 24</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f3efe7;
+    color: #1a1a1a;
+    padding: 2rem;
+  }
+  .progress-bar {
+    background-color: #ddd;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    height: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .progress {
+    height: 100%;
+    background-color: #4caf50;
+    width: 32.00%;
+    border-radius: 20px;
+  }
+  .timer {
+    font-size: 1.2rem;
+    color: red;
+    margin-bottom: 1rem;
+  }
+  .question {
+    font-size: 1.2rem;
+    font-weight: bold;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .option {
+    margin: 0.75rem 0;
+    max-width: 600px;
+  }
+  .feedback {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress"></div></div>
+<div class="timer">⏳ Time left: <span id="time">3:00</span></div>
+<div class="question">Q24: A sales associate is helping one customer when another customer comes to the counter. What should the associate do?</div>
+<form id="quizForm">
+<div class="option"><label><input type="radio" name="option" value="A"> A. Acknowledge the new customer, but complete the current transaction</label></div>
+<div class="option"><label><input type="radio" name="option" value="B"> B. Complete the current sale as quickly as possible</label></div>
+<div class="option"><label><input type="radio" name="option" value="C"> C. Call another associate to help the new customer</label></div>
+<div class="option"><label><input type="radio" name="option" value="D"> D. Help the new customer after finishing the current customer's transaction</label></div>
+
+</form>
+<div id="feedback" class="feedback"></div>
+<button id="nextBtn" style="margin-top:20px; display:none;">Next</button>
+
+<audio id="correctSound" src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Stadium_cheer.ogg" preload="auto"></audio>
+<audio id="incorrectSound" src="https://cdn.pixabay.com/download/audio/2022/03/04/audio_b5c8773251.mp3?filename=buzzer-incorrect.mp3" preload="auto"></audio>
+<audio id="countdownSound" src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_2996a2bb96.mp3?filename=countdown-6sec-2996.mp3" preload="auto"></audio>
+
+<script>
+let timeLeft = 180;
+const timerEl = document.getElementById("time");
+const countdown = setInterval(function() {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    timeLeft--;
+    if (timeLeft < 0) {
+        clearInterval(countdown);
+        document.getElementById("nextBtn").style.display = "inline";
+    }
+}, 1000);
+
+document.getElementById("quizForm").addEventListener("change", function() {
+    const selected = document.querySelector('input[name="option"]:checked').value;
+    const correct = "A";
+    const feedback = document.getElementById("feedback");
+    if (selected === correct) {
+        feedback.textContent = "✅ Correct!";
+        document.getElementById("correctSound").play();
+        let score = parseInt(localStorage.getItem("nrfScore") || 0) + 5;
+        localStorage.setItem("nrfScore", score);
+    } else {
+        feedback.textContent = "❌ Incorrect. The correct answer was: " + correct + ".";
+        document.getElementById("incorrectSound").play();
+    }
+    document.getElementById("nextBtn").style.display = "inline";
+    document.querySelectorAll("input").forEach(el => el.disabled = true);
+});
+
+document.getElementById("nextBtn").addEventListener("click", function() {
+    window.location.href = "q25.html";
+});
+</script>
+</body>
+</html>

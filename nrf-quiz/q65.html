@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Question 65</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f3efe7;
+    color: #1a1a1a;
+    padding: 2rem;
+  }
+  .progress-bar {
+    background-color: #ddd;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    height: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .progress {
+    height: 100%;
+    background-color: #4caf50;
+    width: 86.67%;
+    border-radius: 20px;
+  }
+  .timer {
+    font-size: 1.2rem;
+    color: red;
+    margin-bottom: 1rem;
+  }
+  .question {
+    font-size: 1.2rem;
+    font-weight: bold;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .option {
+    margin: 0.75rem 0;
+    max-width: 600px;
+  }
+  .feedback {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress"></div></div>
+<div class="timer">⏳ Time left: <span id="time">3:00</span></div>
+<div class="question">Q65: A customer wants to print pictures from her digital camera but does not know how to work the digital print machine in your store. You have only been on the job for two days and are just learning how to work the machine. Which of the following should you do to help the customer in this situation?</div>
+<form id="quizForm">
+<div class="option"><label><input type="radio" name="option" value="A"> A. Explain to the customer that you have not been fully trained on the digital machine, but she is welcome to give it a try.</label></div>
+<div class="option"><label><input type="radio" name="option" value="B"> B. Explain to the customer that the digital machine is out of service and you do not know when it will be back up.</label></div>
+<div class="option"><label><input type="radio" name="option" value="C"> C. Tell the customer you do not think the type of digital card that she has will fit your digital machine.</label></div>
+<div class="option"><label><input type="radio" name="option" value="D"> D. Let the customer know you are a new employee but will gladly work with her to help get her photos printed.</label></div>
+
+</form>
+<div id="feedback" class="feedback"></div>
+<button id="nextBtn" style="margin-top:20px; display:none;">Next</button>
+
+<audio id="correctSound" src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Stadium_cheer.ogg" preload="auto"></audio>
+<audio id="incorrectSound" src="https://cdn.pixabay.com/download/audio/2022/03/04/audio_b5c8773251.mp3?filename=buzzer-incorrect.mp3" preload="auto"></audio>
+<audio id="countdownSound" src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_2996a2bb96.mp3?filename=countdown-6sec-2996.mp3" preload="auto"></audio>
+
+<script>
+let timeLeft = 180;
+const timerEl = document.getElementById("time");
+const countdown = setInterval(function() {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    timeLeft--;
+    if (timeLeft < 0) {
+        clearInterval(countdown);
+        document.getElementById("nextBtn").style.display = "inline";
+    }
+}, 1000);
+
+document.getElementById("quizForm").addEventListener("change", function() {
+    const selected = document.querySelector('input[name="option"]:checked').value;
+    const correct = "D";
+    const feedback = document.getElementById("feedback");
+    if (selected === correct) {
+        feedback.textContent = "✅ Correct!";
+        document.getElementById("correctSound").play();
+        let score = parseInt(localStorage.getItem("nrfScore") || 0) + 5;
+        localStorage.setItem("nrfScore", score);
+    } else {
+        feedback.textContent = "❌ Incorrect. The correct answer was: " + correct + ".";
+        document.getElementById("incorrectSound").play();
+    }
+    document.getElementById("nextBtn").style.display = "inline";
+    document.querySelectorAll("input").forEach(el => el.disabled = true);
+});
+
+document.getElementById("nextBtn").addEventListener("click", function() {
+    window.location.href = "q66.html";
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Question 58</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f3efe7;
+    color: #1a1a1a;
+    padding: 2rem;
+  }
+  .progress-bar {
+    background-color: #ddd;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    height: 20px;
+    width: 100%;
+    max-width: 600px;
+  }
+  .progress {
+    height: 100%;
+    background-color: #4caf50;
+    width: 77.33%;
+    border-radius: 20px;
+  }
+  .timer {
+    font-size: 1.2rem;
+    color: red;
+    margin-bottom: 1rem;
+  }
+  .question {
+    font-size: 1.2rem;
+    font-weight: bold;
+    max-width: 600px;
+    line-height: 1.5;
+  }
+  .option {
+    margin: 0.75rem 0;
+    max-width: 600px;
+  }
+  .feedback {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress"></div></div>
+<div class="timer">⏳ Time left: <span id="time">3:00</span></div>
+<div class="question">Q58: A customer approaches a sales associate and asks for a brand of vitamins advertised on the store's website as "buy two, get one free." The sales associate is familiar with the promotion but knows that the generic brand of those vitamins is also on sale. Which of the following is the associate's BEST response?</div>
+<form id="quizForm">
+<div class="option"><label><input type="radio" name="option" value="A"> A. "The offer is only for the brand-name vitamins in Aisle 6, and the sale ends on Saturday. Make sure you pick up three of the exact same bottles, or you won't get the discount. Customers have been making that mistake all day."</label></div>
+<div class="option"><label><input type="radio" name="option" value="B"> B. "Those vitamins have been very popular this week because of the sale! I'm not sure that we have any left, but if we do, you will find them in Aisle 6. Let me know if you don't see them, and I will come help you look."</label></div>
+<div class="option"><label><input type="radio" name="option" value="C"> C. "Yes, the offer you saw is on the brand-name vitamins and is valid all week. There is also a sale on the generic brand of those vitamins that may show you even greater savings. How do you feel about the generic brand?"</label></div>
+<div class="option"><label><input type="radio" name="option" value="D"> D. "That offer is only good for a few more days, and you can find those vitamins in Aisle 6. Make sure you choose the brand-name vitamins because the 'buy two, get one free' offer is only on those specific vitamins."</label></div>
+
+</form>
+<div id="feedback" class="feedback"></div>
+<button id="nextBtn" style="margin-top:20px; display:none;">Next</button>
+
+<audio id="correctSound" src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Stadium_cheer.ogg" preload="auto"></audio>
+<audio id="incorrectSound" src="https://cdn.pixabay.com/download/audio/2022/03/04/audio_b5c8773251.mp3?filename=buzzer-incorrect.mp3" preload="auto"></audio>
+<audio id="countdownSound" src="https://cdn.pixabay.com/download/audio/2022/03/22/audio_2996a2bb96.mp3?filename=countdown-6sec-2996.mp3" preload="auto"></audio>
+
+<script>
+let timeLeft = 180;
+const timerEl = document.getElementById("time");
+const countdown = setInterval(function() {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    timerEl.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    timeLeft--;
+    if (timeLeft < 0) {
+        clearInterval(countdown);
+        document.getElementById("nextBtn").style.display = "inline";
+    }
+}, 1000);
+
+document.getElementById("quizForm").addEventListener("change", function() {
+    const selected = document.querySelector('input[name="option"]:checked').value;
+    const correct = "C";
+    const feedback = document.getElementById("feedback");
+    if (selected === correct) {
+        feedback.textContent = "✅ Correct!";
+        document.getElementById("correctSound").play();
+        let score = parseInt(localStorage.getItem("nrfScore") || 0) + 5;
+        localStorage.setItem("nrfScore", score);
+    } else {
+        feedback.textContent = "❌ Incorrect. The correct answer was: " + correct + ".";
+        document.getElementById("incorrectSound").play();
+    }
+    document.getElementById("nextBtn").style.display = "inline";
+    document.querySelectorAll("input").forEach(el => el.disabled = true);
+});
+
+document.getElementById("nextBtn").addEventListener("click", function() {
+    window.location.href = "q59.html";
+});
+</script>
+</body>
+</html>

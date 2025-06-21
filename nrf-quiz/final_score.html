@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Score</title>
+  <style>
+    body {
+      background-color: #fdf6ec;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 4rem;
+      color: #1a1a1a;
+    }
+    .score {
+      font-size: 2rem;
+      color: green;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 You've completed the quiz!</h1>
+  <div class="score">Final Score: <span id="finalScore">0</span> / 375</div>
+  <script>
+    document.getElementById("finalScore").textContent = localStorage.getItem("nrfScore") || 0;
+    localStorage.removeItem("nrfScore");
+  </script>
+</body>
+</html>
