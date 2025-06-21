@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q38</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .options {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .option {
+      margin: 12px 0;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+    #nextButton {
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q38:</strong> While showing a customer merchandise, an associate overhears a customer telling her friend that the prices in the store are very high. What is the BEST way for the associate to respond?
+    </div>
+    <form id="quizForm">
+      <div class="options">
+        <div class="option"><label><input type="radio" name="answer" value="A"> A. Suggest another store in the area that has lower prices, and tell the customer how to get there.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="B"> B. Ask the customer if she has ever shopped in your store before to determine if she can afford the merchandise.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="C"> C. Inform the customer that the store carries a range of price points and offer to show the customer around the store.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="D"> D. Agree with the customer and let her know the store is getting ready to have a sale and to check back next week for discounts.</label></div>
+
+      </div>
+    </form>
+    <div id="feedback"></div>
+    <div id="badge">⭐</div>
+    <button id="nextButton">Next</button>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+        document.getElementById("nextButton").style.display = "inline-block";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    const radios = document.querySelectorAll('input[name="answer"]');
+    radios.forEach(radio => {
+      radio.addEventListener("change", function() {
+        const selected = this.value;
+        const correct = "C";
+        if (selected === correct) {
+          document.getElementById("feedback").textContent = "✅ Correct!";
+          document.getElementById("badge").style.display = "inline-block";
+          document.getElementById("cheerSound").play();
+        } else {
+          document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+          document.getElementById("buzzerSound").play();
+        }
+        document.getElementById("nextButton").style.display = "inline-block";
+      });
+    });
+
+    document.getElementById("nextButton").addEventListener("click", function() {
+      window.location.href = "q39.html";
+    });
+  </script>
+</body>
+</html>
