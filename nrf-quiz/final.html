@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Score</title>
+  <style>
+    body {{
+      font-family: Arial, sans-serif;
+      background-color: #f8f5f0;
+      text-align: center;
+      padding: 60px;
+    }}
+    .score-box {{
+      font-size: 24px;
+      color: green;
+      background: #fff;
+      border-radius: 8px;
+      padding: 30px;
+      display: inline-block;
+    }}
+  </style>
+</head>
+<body>
+  <div class="score-box">
+    🎉 <strong>Final Score:</strong> <span id="score">0</span> / 370
+  </div>
+  <script>
+    const score = sessionStorage.getItem('score') || 0;
+    document.getElementById('score').textContent = score;
+  </script>
+</body>
+</html>
