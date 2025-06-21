@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q42</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .options {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .option {
+      margin: 12px 0;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q42:</strong> A customer looking to upgrade a wireless phone is considering a smartphone that offers email, online shopping, and navigation features. The customer is nervous that the new phone may be too difficult to use. What is the sales associate's BEST approach for guiding this customer to an upgraded model?
+    </div>
+    <form id="quizForm">
+      <div class="options">
+        <div class="option"><label><input type="radio" name="answer" value="A"> A. Point to the variety of smartphones on display and give the customer time to practice using the various models.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="B"> B. Describe the benefits of different smartphones and let the customer test the different functions to see how easy they are to use.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="C"> C. Talk with the customer about the best-selling smartphones and give the customer time to evaluate the differences.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="D"> D. Ask about the customer's budget and narrow down the models based on price considerations so that the customer can test out the different features.</label></div>
+
+      </div>
+    </form>
+    <div id="feedback"></div>
+    <div id="badge">⭐</div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    const radios = document.querySelectorAll('input[name="answer"]');
+    radios.forEach(radio => {
+      radio.addEventListener("change", function() {
+        const selected = this.value;
+        const correct = "B";
+        if (selected === correct) {
+          document.getElementById("feedback").textContent = "✅ Correct!";
+          document.getElementById("badge").style.display = "inline-block";
+          document.getElementById("cheerSound").play();
+        } else {
+          document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+          document.getElementById("buzzerSound").play();
+        }
+        setTimeout(() => {
+          window.location.href = "q43.html";
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
