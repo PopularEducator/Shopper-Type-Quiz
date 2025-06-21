@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q29</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 29 of 74</div>
+<div class="question">
+  <p>30. A customer is looking for a home security system. A sales associate has shown the customer several systems, but the customer keeps responding with various objections. What is the BEST way for the sales associate to determine which system matches the customer's needs?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. Ask a combination of open and closed questions to understand the customer's objections.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. Acknowledge the customer's objections while continuing to show different systems in a variety of price ranges.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. Provide more information on the features and benefits of the systems already presented.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. Repeat the customer's requirements to prove that the various systems meet the customer's needs.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q30.html";
+};
+</script>
+</body>
+</html>

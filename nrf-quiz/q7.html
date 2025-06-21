@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q7</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 7 of 74</div>
+<div class="question">
+  <p>7. Which answer BEST describes when a sales associate knows all of the information needed to successfully sell a product in a store?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. The sales associate can confidently and intelligently answer all of the customer's questions about a product and solve routine problems with the product.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. The sales associate has completed all of the training courses assigned by the manager or corporate office.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. The sales associate can show a customer how to assemble or use a product without reading the instructions.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. The sales associate can discuss the product with other sales associates on the team and show them how it works.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = " ";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q8.html";
+};
+</script>
+</body>
+</html>

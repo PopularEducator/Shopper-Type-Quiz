@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q66</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 66 of 74</div>
+<div class="question">
+  <p>66. A customer calls and asks an associate to search for an item. The associate knows that the item is not in the store. The BEST approach to serving this customer is:</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. Suggest that the customer order the item from another store or through the store catalog.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. Apologize and end the call as quickly as possible.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. Suggest a similar item and offer to send it to the customer without a shipping charge.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. Offer to search for the item in another store and follow up with the customer.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q67.html";
+};
+</script>
+</body>
+</html>

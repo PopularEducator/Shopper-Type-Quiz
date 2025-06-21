@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q57</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 57 of 74</div>
+<div class="question">
+  <p>58. A customer approaches a sales associate and asks for a brand of vitamins advertised on the store's website as "buy two, get one free." The sales associate is familiar with the promotion but knows that the generic brand of those vitamins is also on sale. Which of the following is the associate's BEST response?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. "The offer is only for the brand-name vitamins in Aisle 6, and the sale ends on Saturday. Make sure you pick up three of the exact same bottles, or you won't get the discount. Customers have been making that mistake all day."</label><br>
+        <label><input type="radio" name="answer" value="B"> B. "Those vitamins have been very popular this week because of the sale! I'm not sure that we have any left, but if we do, you will find them in Aisle 6. Let me know if you don't see them, and I will come help you look."</label><br>
+        <label><input type="radio" name="answer" value="C"> C. "Yes, the offer you saw is on the brand-name vitamins and is valid all week. There is also a sale on the generic brand of those vitamins that may show you even greater savings. How do you feel about the generic brand?"</label><br>
+        <label><input type="radio" name="answer" value="D"> D. "That offer is only good for a few more days, and you can find those vitamins in Aisle 6. Make sure you choose the brand-name vitamins because the 'buy two, get one free' offer is only on those specific vitamins."</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q58.html";
+};
+</script>
+</body>
+</html>

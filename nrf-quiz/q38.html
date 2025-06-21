@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q38</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 38 of 74</div>
+<div class="question">
+  <p>39. A wedding coordinator, unable to meet tight deadlines, has lost several potential clients. Which of the following can the coordinator do to help prevent this loss of business in the future?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. Persuade the next few clients to schedule their wedding dates slightly later.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. Explain that the competitors have more dissatisfied customers.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. Gather information about competitors to identify ways to increase efficiency.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. Advertise in more local publications to attract more clients.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q39.html";
+};
+</script>
+</body>
+</html>

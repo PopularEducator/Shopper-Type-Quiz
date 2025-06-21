@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q17</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 17 of 74</div>
+<div class="question">
+  <p>17. A customer has just purchased a box of magic tricks as a birthday gift for a friend's son. While the associate at the toy store is wrapping the gift, the customer mentions that she is a bit concerned. She thinks the child may have trouble learning how to perform the magic tricks because he is just learning to read and the instruction manual may be difficult. What would be the associate's BEST reply?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. "Maybe the boy's parents could read the instructions to him until his reading improves, and then he can practice the magic tricks on his own."</label><br>
+        <label><input type="radio" name="answer" value="B"> B. "The box says that this toy is for children his age. I'm sure he'll be fine with the manual."</label><br>
+        <label><input type="radio" name="answer" value="C"> C. "Would you like me to suggest some other gift items that would be more appropriate for a child who can't read well?"</label><br>
+        <label><input type="radio" name="answer" value="D"> D. "There is a video that is available to demonstrate the tricks. I haven't totaled up your receipt yet. May I add that to your purchase?"</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q18.html";
+};
+</script>
+</body>
+</html>

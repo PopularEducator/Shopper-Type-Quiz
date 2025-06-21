@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q61</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 61 of 74</div>
+<div class="question">
+  <p>62. An associate in a home improvement store is asked by a customer to cut some shelving to fit the measurements of his master bedroom closet, a service that the store freely provides. If the associate has never cut shelving before, which of the following BEST represents an appropriate response to the customer's request?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. Let the customer know that the associate will be happy to find a co-worker or supervisor to assist in cutting the shelving.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. Politely request that the customer to go to the service desk and ask for the cutting specialist on duty.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. Take initiative and figure out how to use the cutting equipment to cut the shelves to the desired specifications.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. Apologize for not having been trained on the equipment and explain that the shelving will need to be cut elsewhere.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q62.html";
+};
+</script>
+</body>
+</html>

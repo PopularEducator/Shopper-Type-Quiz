@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q40</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 40 of 74</div>
+<div class="question">
+  <p>41. Which is the BEST reason for a sales associate to know the store's promotions and advertising?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. To answer customers' questions about price and location of sale items</label><br>
+        <label><input type="radio" name="answer" value="B"> B. To know the frequency of sales within the department</label><br>
+        <label><input type="radio" name="answer" value="C"> C. To sway customers' decisions and sell products more quickly</label><br>
+        <label><input type="radio" name="answer" value="D"> D. To suggest additional merchandise for customers to buy</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q41.html";
+};
+</script>
+</body>
+</html>

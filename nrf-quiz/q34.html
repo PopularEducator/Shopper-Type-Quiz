@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q34</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 34 of 74</div>
+<div class="question">
+  <p>35. Samples of a new line of baked goods are arranged for sampling. Customers are complaining to an associate at the register that a child is touching all of the samples. The associate does not see the parents anywhere. Which of the following should the associate do?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. Ask another associate for help in moving the sample tray out of the child's reach.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. Tell the complaining customers that no one can control another person's child.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. Continue ringing sales and wait for the parents and child to leave.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. Leave, locate the parents, and then ask them to control the child.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q35.html";
+};
+</script>
+</body>
+</html>

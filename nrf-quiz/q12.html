@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q12</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 12 of 74</div>
+<div class="question">
+  <p>12. A customer calls the store about a purchase she made, which was advertised for less at a direct competitor's location. The customer asks for a price adjustment on the item, and the sales associate is not sure how to respond. Which of the following is the BEST response for the sales associate to give the customer?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. "Thank you for calling, I am not able to answer your question; however, let me give you the number of our corporate office."</label><br>
+        <label><input type="radio" name="answer" value="B"> B. "I understand your concern. Please hold while I get someone to assist you right away."</label><br>
+        <label><input type="radio" name="answer" value="C"> C. "I realize that you are upset; however, there is nothing our company can do to help you."</label><br>
+        <label><input type="radio" name="answer" value="D"> D. "This happens all the time; let me take your name and phone number and ask a manager to contact you."</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q13.html";
+};
+</script>
+</body>
+</html>

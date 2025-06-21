@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q2</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 2 of 74</div>
+<div class="question">
+  <p>2. A customer enters the housewares department with a printed copy of an online advertisement for a blender. The customer asks the sales associate where the blender is located. The associate knows the store is out of stock, but the customer needs the item today. What is the associate's BEST response?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. "We are unfortunately out of stock on that item. I can call around to try to find it. Do you want to see if you can pick it up at one of our other stores?"</label><br>
+        <label><input type="radio" name="answer" value="B"> B. "I'm sorry. We are out of stock on that particular blender. We have a variety of other blenders I can show you that have some of the same features you might need. How are you planning to use the blender?"</label><br>
+        <label><input type="radio" name="answer" value="C"> C. "I know you like this blender, but I don't think it's as easy to clean as this other model over here. We are out of the model you want, anyway, so maybe you want to try this one? It's on sale today, too."</label><br>
+        <label><input type="radio" name="answer" value="D"> D. "This blender is out of stock. I know you want to take it home today, but if you can wait, I can try calling some other stores and have it shipped to you within a week "</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q3.html";
+};
+</script>
+</body>
+</html>

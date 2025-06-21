@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NRF Quiz Q49</title>
+<style>
+  body { font-family: Arial; background: #f5f0e1; padding: 20px; }
+  .question { background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+  .scorebar { margin-bottom: 10px; font-weight: bold; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="scorebar">Question 49 of 74</div>
+<div class="question">
+  <p>50. A customer asks an associate for help choosing a scarf. The customer mentions that she is allergic to many natural fabrics. The associate will be on duty for only 15 more minutes and is rushing to finish restocking shelves before leaving. Which of the following should the associate do NEXT?</p>
+  <form id="quizForm">
+        <label><input type="radio" name="answer" value="A"> A. Ask the customer questions to learn which fibers she can use, and then help her find scarves in that material.</label><br>
+        <label><input type="radio" name="answer" value="B"> B. Suggest that the customer look at scarves, and then say that another associate will be there in 15 minutes to help.</label><br>
+        <label><input type="radio" name="answer" value="C"> C. Show the customer where the scarves are, and then point out that the labels include information on the fiber content.</label><br>
+        <label><input type="radio" name="answer" value="D"> D. Offer to help the customer test scarves to see which will not cause an allergic reaction.</label><br></form>
+  <p id="feedback"></p>
+  <button id="nextBtn" class="hidden">Next</button>
+</div>
+<script>
+let form = document.getElementById('quizForm');
+let nextBtn = document.getElementById('nextBtn');
+let feedback = document.getElementById('feedback');
+let correctAnswer = "*";
+let score = localStorage.getItem('score') || 0;
+
+form.addEventListener('change', function(e) {
+  let selected = form.answer.value;
+  if (selected === correctAnswer) {
+    feedback.innerHTML = "✅ Correct!";
+    score = parseInt(score) + 5;
+    localStorage.setItem('score', score);
+  } else {
+    feedback.innerHTML = "❌ Incorrect. Correct answer: " + correctAnswer;
+  }
+  nextBtn.classList.remove('hidden');
+  let inputs = form.querySelectorAll('input');
+  inputs.forEach(i => i.disabled = true);
+});
+
+nextBtn.onclick = () => {
+  window.location.href = "q50.html";
+};
+</script>
+</body>
+</html>
