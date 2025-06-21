@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NRF Quiz - Question 50</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f1e1;
+      color: #222;
+      padding: 20px;
+    }
+    .question-box {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 { color: #333; }
+    .choices button {
+      display: block;
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    .correct {
+      background-color: #d4edda;
+    }
+    .incorrect {
+      background-color: #f8d7da;
+    }
+    .hidden {
+      display: none;
+    }
+    .badge {
+      font-size: 24px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <div class="question-box">
+    <h2>Q50</h2>
+    <p>A customer asks an associate for help choosing a scarf. The customer mentions that she is allergic to many natural fabrics. The associate will be on duty for only 15 more minutes and is rushing to finish restocking shelves before leaving. Which of the following should the associate do NEXT?</p>
+    <div class="choices">
+      <button data-choice="B">B. Suggest that the customer look at scarves, and then say that another associate will be there in 15 minutes to help.</button>
+<button data-choice="C">C. Show the customer where the scarves are, and then point out that the labels include information on the fiber content.</button>
+<button data-choice="D">D. Offer to help the customer test scarves to see which will not cause an allergic reaction.</button>
+
+    </div>
+    <p id="feedback" class="hidden"></p>
+    <p id="badge" class="hidden badge">🏅</p>
+    <br>
+    <a id="nextLink" href="q51.html" class="hidden">Next Question →</a>
+  </div>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Stadium_cheer.ogg" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Game-show-wrong-answer-sound.mp3" preload="auto"></audio>
+  <script>
+    const correctAnswer = "A";
+    const buttons = document.querySelectorAll(".choices button");
+    const feedback = document.getElementById("feedback");
+    const badge = document.getElementById("badge");
+    const cheerSound = document.getElementById("cheerSound");
+    const buzzerSound = document.getElementById("buzzerSound");
+    const nextLink = document.getElementById("nextLink");
+
+    buttons.forEach(btn => {
+      btn.onclick = () => {
+        if (btn.dataset.choice === correctAnswer) {
+          feedback.textContent = "✅ Correct!";
+          feedback.className = "correct";
+          badge.classList.remove("hidden");
+          cheerSound.play();
+        } else {
+          feedback.textContent = "❌ Incorrect. The correct answer was: " + correctAnswer;
+          feedback.className = "incorrect";
+          buzzerSound.play();
+        }
+        feedback.classList.remove("hidden");
+        nextLink.classList.remove("hidden");
+        buttons.forEach(b => b.disabled = true);
+      };
+    });
+  </script>
+</body>
+</html>
