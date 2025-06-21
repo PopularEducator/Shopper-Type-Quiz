@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NRF Exam Practice Questions</title>
+  <style>
+    body {
+      background-color: #2d2a4a;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background-color: #3a3755;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+    }
+
+    h1 {
+      color: #d4bfff;
+      text-align: center;
+    }
+
+    #timer {
+      font-size: 24px;
+      color: red;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      background: #46426c;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+    }
+
+    .option {
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #6cbf84;
+      border: none;
+      color: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .feedback {
+      margin-top: 10px;
+    }
+
+    .correct {
+      color: #2ecc71;
+    }
+
+    .incorrect {
+      color: #e74c3c;
+    }
+
+    #score-box {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.4em;
+    }
+
+    .badge {
+      display: block;
+      margin: 20px auto;
+      width: 70px;
+    }
+
+    .jackpot {
+      font-size: 2em;
+      text-align: center;
+      color: gold;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>NRF Exam Practice Questions</h1>
+    <div id="timer">Time: 3:00</div>
+    <div id="quiz"></div>
+    <div id="score-box">Score: 0</div>
+    <div class="jackpot" id="jackpot"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is the goal of customer service?",
+        options: ["Push sales", "Avoid complaints", "Satisfy the customer*", "Upsell products"],
+        correct: 2
+      },
+      {
+        question: "What should you do when a customer enters?",
+        options: ["Let them browse", "Greet them*", "Wait at the register", "Check stock"],
+        correct: 1
+      }
+    ];
+
+    let score = 0;
+    let timeLeft = 180;
+    let timerInterval;
+
+    function playAudio(url) {
+      const sound = new Audio(url);
+      sound.play().catch(e => console.warn("Audio blocked:", e));
+    }
+
+    function startTimer() {
+      const timerDisplay = document.getElementById("timer");
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timerDisplay.innerText = `Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerDisplay.innerText = "Time's up!";
+        }
+      }, 1000);
+    }
+
+    function renderQuiz() {
+      const quizDiv = document.getElementById("quiz");
+      questions.forEach((q, idx) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question";
+        questionDiv.innerHTML = `<h3>Q${idx + 1}: ${q.question}</h3>`;
+        q.options.forEach((opt, i) => {
+          const cleanOpt = opt.replace("*", "");
+          questionDiv.innerHTML += `<label class="option"><input type="radio" name="q${idx}" value="${i}"> ${cleanOpt}</label>`;
+        });
+        questionDiv.innerHTML += `<button onclick="submitAnswer(${idx})">Submit</button>`;
+        questionDiv.innerHTML += `<div id="feedback${idx}" class="feedback"></div>`;
+        quizDiv.appendChild(questionDiv);
+      });
+
+      startTimer();
+    }
+
+    function submitAnswer(index) {
+      const radios = document.getElementsByName("q" + index);
+      let selected = -1;
+      for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+          selected = parseInt(radios[i].value);
+          break;
+        }
+      }
+
+      const feedback = document.getElementById("feedback" + index);
+      if (selected === -1) {
+        alert("Please choose an answer.");
+        return;
+      }
+
+      const correctIndex = questions[index].correct;
+      const correctAnswer = questions[index].options[correctIndex].replace("*", "");
+
+      if (selected === correctIndex) {
+        score += 5;
+        playAudio("https://upload.wikimedia.org/wikipedia/commons/1/1f/Stadium_cheer.ogg");
+        feedback.innerHTML = `<p class="correct">✅ Correct!</p><img class="badge" src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Badge" />`;
+      } else {
+        playAudio("https://upload.wikimedia.org/wikipedia/commons/4/4f/Game-show-wrong-answer.ogg");
+        feedback.innerHTML = `<p class="incorrect">❌ Incorrect. Correct Answer: ${correctAnswer}</p>`;
+      }
+
+      document.getElementById("score-box").innerText = "Score: " + score;
+
+      if (index === questions.length - 1) {
+        setTimeout(() => {
+          playAudio("https://upload.wikimedia.org/wikipedia/commons/5/5b/Slot_machine_jackpot.ogg");
+          document.getElementById("jackpot").innerText = "🎰 Final Score: " + score + " 🎉";
+        }, 1000);
+      }
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
