@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NRF Practice Question</title>
+  <style>
+    body {
+      background-color: #f4f1ea;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      color: black;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    h1 {
+      color: #8b5e3c;
+    }
+    .option {
+      display: block;
+      margin: 1rem 0;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .option:hover {
+      background-color: #f0e6d6;
+    }
+    .button {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #6cbf84;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    #timer {
+      color: red;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+<audio id="correctSound" src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Stadium_cheer.ogg" preload="auto"></audio>
+<audio id="incorrectSound" src="https://upload.wikimedia.org/wikipedia/commons/f/f0/Family_Fortunes_-_Wrong_Answer_Sound_Effect.ogg" preload="auto"></audio>
+<div class="container">
+<h1>Q58: A customer approaches a sales associate and asks for a brand of vitamins advertised on the store's website as "buy two, get one free." The sales associate is familiar with the promotion but knows that the generic brand of those vitamins is also on sale. Which of the following is the associate's BEST response?</h1>
+<div class='option' onclick="selectAnswer(false, 'C')">A. "The offer is only for the brand-name vitamins in Aisle 6, and the sale ends on Saturday. Make sure you pick up three of the exact same bottles, or you won't get the discount. Customers have been making that mistake all day."</div>
+<div class='option' onclick="selectAnswer(false, 'C')">B. "Those vitamins have been very popular this week because of the sale! I'm not sure that we have any left, but if we do, you will find them in Aisle 6. Let me know if you don't see them, and I will come help you look."</div>
+<div class='option' onclick="selectAnswer(true, 'C')">C. "Yes, the offer you saw is on the brand-name vitamins and is valid all week. There is also a sale on the generic brand of those vitamins that may show you even greater savings. How do you feel about the generic brand?"</div>
+<div class='option' onclick="selectAnswer(false, 'C')">D. "That offer is only good for a few more days, and you can find those vitamins in Aisle 6. Make sure you choose the brand-name vitamins because the 'buy two, get one free' offer is only on those specific vitamins."</div>
+
+  <div id="feedback"></div>
+  <div id="timer">Time left: <span id="time">180</span> seconds</div>
+  <button id="nextBtn" class="button" style="display:none;">Next Question</button>
+</div>
+<script>
+  const correctSound = document.getElementById("correctSound");
+  const incorrectSound = document.getElementById("incorrectSound");
+  let timeLeft = 180;
+  let countdown = setInterval(() => {
+    timeLeft--;
+    document.getElementById("time").innerText = timeLeft;
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      document.getElementById("feedback").innerText = "⏰ Time's up!";
+      document.getElementById("nextBtn").style.display = "block";
+    }
+  }, 1000);
+
+  function selectAnswer(isCorrect, answerText) {
+    clearInterval(countdown);
+    const feedback = document.getElementById("feedback");
+    if (isCorrect) {
+      feedback.textContent = "✅ Correct!";
+      correctSound.play();
+      let score = parseInt(localStorage.getItem('score') || "0");
+      localStorage.setItem('score', score + 5);
+    } else {
+      feedback.textContent = "❌ Incorrect. Correct answer: " + answerText;
+      incorrectSound.play();
+    }
+    document.getElementById("nextBtn").style.display = "block";
+  }
+
+  document.getElementById("nextBtn").onclick = function() {
+    window.location.href = "q59.html";
+  };
+</script>
+</body>
+</html>
