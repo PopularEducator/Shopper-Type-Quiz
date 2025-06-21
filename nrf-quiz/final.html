@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Score</title>
+  <style>
+    body {{
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      color: #222;
+    }}
+    .jackpot {{
+      font-size: 48px;
+      margin-top: 30px;
+      animation: spin 2s ease-in-out;
+      color: green;
+    }}
+    @keyframes spin {{
+      0% {{ transform: rotateX(0); }}
+      100% {{ transform: rotateX(360deg); }}
+    }}
+  </style>
+</head>
+<body>
+  <h1>🎉 NRF Practice Complete!</h1>
+  <div class="jackpot" id="scoreDisplay">Final Score: 0</div>
+
+  <audio id="jackpotSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/f/f0/Slot_machine_jackpot.ogg/Slot_machine_jackpot.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let params = new URLSearchParams(window.location.search);
+    let score = params.get("score") || 0;
+    document.getElementById("scoreDisplay").textContent = "Final Score: " + score;
+    document.getElementById("jackpotSound").play().catch(()=>{{}});
+  </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q57</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    .option {
+      margin: 12px 0;
+      cursor: pointer;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+    #score-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q57:</strong> A store is planning a product launch for a new line of eco-friendly cosmetics that the vendor has been heavily advertising. What is the BEST way for sales associates to prepare for the launch?
+    </div>
+    <div class="options">
+      <div class="option" data-choice="A">A. Ask co-workers if they have used the cosmetics and ask what was liked or disliked about each product.</div>
+<div class="option" data-choice="B">B. Obtain information from the vendor's promotional brochures and demonstration videos about the cosmetics.</div>
+<div class="option" data-choice="C">C. Research technical terms associated with the cosmetics in order to speak like an expert when interacting with customers.</div>
+<div class="option" data-choice="D">D. Acquire knowledge about the cosmetics by reading product labels once they are on the shelves.</div>
+
+    </div>
+    <div id="feedback"></div>
+    <div id="badge">⭐</div>
+    <div id="score-section">
+      <button onclick="window.location.href='q58.html'">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    const correct = "B";
+    const options = document.querySelectorAll('.option');
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.style.pointerEvents = "none");
+        const userChoice = opt.getAttribute('data-choice');
+        if (userChoice === correct) {
+          document.getElementById("feedback").textContent = "✅ Correct!";
+          document.getElementById("badge").style.display = "inline-block";
+          document.getElementById("cheerSound").play();
+        } else {
+          document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+          document.getElementById("buzzerSound").play();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

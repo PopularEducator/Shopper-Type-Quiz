@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q1</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    .option {
+      margin: 12px 0;
+      cursor: pointer;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+    #score-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q1:</strong> A customer comes into a store to return an item that was purchased online. The customer states that the wrong item was received. The sales associate helping the customer has never dealt with this issue before. Which is the BEST action the associate can take to resolve the problem?
+    </div>
+    <div class="options">
+      <div class="option" data-choice="A">A. Suggest that the customer look for the correct item in the store, and request that the incorrect item be returned by mail because the store does not stock the item.</div>
+<div class="option" data-choice="B">B. Apologize to the customer and call a supervisor for instructions on processing a prompt exchange for the correct item.</div>
+<div class="option" data-choice="C">C. Apologize for the mistake and give the customer a phone number to use in order to file a complaint and reorder the correct item.</div>
+<div class="option" data-choice="D">D. Thank the customer for bringing the issue to the store's attention, and then provide a refund for the item.</div>
+
+    </div>
+    <div id="feedback"></div>
+    <div id="badge">⭐</div>
+    <div id="score-section">
+      <button onclick="window.location.href='q2.html'">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    const correct = "B";
+    const options = document.querySelectorAll('.option');
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.style.pointerEvents = "none");
+        const userChoice = opt.getAttribute('data-choice');
+        if (userChoice === correct) {
+          document.getElementById("feedback").textContent = "✅ Correct!";
+          document.getElementById("badge").style.display = "inline-block";
+          document.getElementById("cheerSound").play();
+        } else {
+          document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+          document.getElementById("buzzerSound").play();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

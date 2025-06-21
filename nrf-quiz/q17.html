@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q17</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    .option {
+      margin: 12px 0;
+      cursor: pointer;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+    #score-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q17:</strong> A customer has just purchased a box of magic tricks as a birthday gift for a friend's son. While the associate at the toy store is wrapping the gift, the customer mentions that she is a bit concerned. She thinks the child may have trouble learning how to perform the magic tricks because he is just learning to read and the instruction manual may be difficult. What would be the associate's BEST reply?
+    </div>
+    <div class="options">
+      <div class="option" data-choice="A">A. "Maybe the boy's parents could read the instructions to him until his reading improves, and then he can practice the magic tricks on his own."</div>
+<div class="option" data-choice="B">B. "The box says that this toy is for children his age. I'm sure he'll be fine with the manual."</div>
+<div class="option" data-choice="C">C. "Would you like me to suggest some other gift items that would be more appropriate for a child who can't read well?"</div>
+<div class="option" data-choice="D">D. "There is a video that is available to demonstrate the tricks. I haven't totaled up your receipt yet. May I add that to your purchase?"</div>
+
+    </div>
+    <div id="feedback"></div>
+    <div id="badge">⭐</div>
+    <div id="score-section">
+      <button onclick="window.location.href='q18.html'">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    const correct = "D";
+    const options = document.querySelectorAll('.option');
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.style.pointerEvents = "none");
+        const userChoice = opt.getAttribute('data-choice');
+        if (userChoice === correct) {
+          document.getElementById("feedback").textContent = "✅ Correct!";
+          document.getElementById("badge").style.display = "inline-block";
+          document.getElementById("cheerSound").play();
+        } else {
+          document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+          document.getElementById("buzzerSound").play();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

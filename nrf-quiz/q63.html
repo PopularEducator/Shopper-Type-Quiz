@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q63</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+    .options {
+      margin-top: 20px;
+    }
+    .option {
+      margin: 12px 0;
+      cursor: pointer;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+    #score-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q63:</strong> An associate in a home improvement store is asked by a customer to cut some shelving to fit the measurements of his master bedroom closet, a service that the store freely provides. If the associate has never cut shelving before, which of the following BEST represents an appropriate response to the customer's request?
+    </div>
+    <div class="options">
+      <div class="option" data-choice="A">A. Let the customer know that the associate will be happy to find a co-worker or supervisor to assist in cutting the shelving.</div>
+<div class="option" data-choice="B">B. Politely request that the customer to go to the service desk and ask for the cutting specialist on duty.</div>
+<div class="option" data-choice="C">C. Take initiative and figure out how to use the cutting equipment to cut the shelves to the desired specifications.</div>
+<div class="option" data-choice="D">D. Apologize for not having been trained on the equipment and explain that the shelving will need to be cut elsewhere.</div>
+
+    </div>
+    <div id="feedback"></div>
+    <div id="badge">⭐</div>
+    <div id="score-section">
+      <button onclick="window.location.href='q64.html'">Next Question →</button>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    const correct = "B";
+    const options = document.querySelectorAll('.option');
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.style.pointerEvents = "none");
+        const userChoice = opt.getAttribute('data-choice');
+        if (userChoice === correct) {
+          document.getElementById("feedback").textContent = "✅ Correct!";
+          document.getElementById("badge").style.display = "inline-block";
+          document.getElementById("cheerSound").play();
+        } else {
+          document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+          document.getElementById("buzzerSound").play();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
