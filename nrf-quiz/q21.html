@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NRF Practice Q21</title>
+  <style>
+    body {
+      background-color: #f5f0e1;
+      font-family: Arial, sans-serif;
+      color: #000;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .timer {
+      color: red;
+      font-weight: bold;
+      text-align: right;
+    }
+    .question {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5;
+      font-family: Arial, sans-serif;
+    }
+    .options {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+    .option {
+      margin: 12px 0;
+    }
+    #feedback {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    #badge {
+      font-size: 24px;
+      color: gold;
+      display: none;
+    }
+    #score-section {
+      margin-top: 30px;
+      text-align: center;
+    }
+    button {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="timer">Timer <span id="timer">3:00</span></div>
+    <div class="question">
+      <strong>Q21:</strong> Which of the following methods is the BEST way to resolve a customer complaint?
+    </div>
+    <form id="quizForm">
+      <div class="options">
+        <div class="option"><label><input type="radio" name="answer" value="A"> A. Ask the manager to handle the situation so the customer feels like a priority regardless of the outcome.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="B"> B. Actively listen to the complaint, ask questions, and let the customer have input</label></div>
+<div class="option"><label><input type="radio" name="answer" value="C"> C. Apologize to the customer that the merchandise didn't work out and refund the cost according to store policy.</label></div>
+<div class="option"><label><input type="radio" name="answer" value="D"> D. Figure out how to make the customer happy before he or she gets angry and the store loses the customer's business.</label></div>
+
+      </div>
+      <div id="feedback"></div>
+      <div id="badge">⭐</div>
+      <div id="score-section">
+        <button type="submit">Submit Answer</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Audio -->
+  <audio id="countdownSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6d/Countdown.ogg/Countdown.ogg.mp3" preload="auto"></audio>
+  <audio id="cheerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1f/Stadium_cheer.ogg/Stadium_cheer.ogg.mp3" preload="auto"></audio>
+  <audio id="buzzerSound" src="https://upload.wikimedia.org/wikipedia/commons/transcoded/4/41/Buzzer.ogg/Buzzer.ogg.mp3" preload="auto"></audio>
+
+  <script>
+    let time = 180;
+    const timerEl = document.getElementById("timer");
+    const countdown = setInterval(() => {
+      time--;
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      timerEl.textContent = `${min}:${sec < 10 ? "0" + sec : sec}`;
+      if (time <= 0) {
+        clearInterval(countdown);
+        document.getElementById("feedback").textContent = "⏰ Time's up!";
+      }
+    }, 1000);
+    document.getElementById("countdownSound").play().catch(()=>{});
+
+    document.getElementById("quizForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      const selected = form.get("answer");
+      const correct = "C";
+      if (selected === correct) {
+        document.getElementById("feedback").textContent = "✅ Correct!";
+        document.getElementById("badge").style.display = "inline-block";
+        document.getElementById("cheerSound").play();
+      } else {
+        document.getElementById("feedback").textContent = "❌ Incorrect. The correct answer was: " + correct;
+        document.getElementById("buzzerSound").play();
+      }
+    });
+  </script>
+</body>
+</html>
